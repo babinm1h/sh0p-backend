@@ -13,10 +13,10 @@ interface IGetAllQuery {
 
 class ProductController {
 
-    async create(req: express.Request, res: express.Response) {
+    async create(req: any, res: express.Response) {
         try {
             let { name, price, typeId, brandId, info } = req.body
-            let { img } = req.files as any
+            let { img } = req.files
             let fileName = v4() + ".jpg"
             img.mv(path.resolve(__dirname, "..", "static", fileName))
 

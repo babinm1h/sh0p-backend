@@ -1,9 +1,12 @@
 import express from "express"
 import cartController from "../controllers/cartController"
-import { checkRoleMiddleware } from "../middleware/checkRoleMiddleware"
+import { authMiddleware } from "../middleware/authMiddleware"
 
 
 export const cartRouter = express.Router()
 
-cartRouter.post("/",checkRoleMiddleware("ADMIN"), cartController.create)
-cartRouter.get("/", cartController.getAll)
+cartRouter.delete("/:id", authMiddleware, cartController.delete)
+cartRouter.post("/:id", authMiddleware, cartController.create)
+cartRouter.get("/", authMiddleware, cartController.getAll)
+cartRouter.put("/add/:id", authMiddleware, cartController.addOne)
+cartRouter.put("/remove/:id", authMiddleware, cartController.removeOne)
