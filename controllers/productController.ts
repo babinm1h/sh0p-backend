@@ -85,5 +85,21 @@ class ProductController {
         }
     }
 
+
+    async deleteOne(req: express.Request, res: express.Response) {
+        try {
+            const { id } = req.params
+            if (!id) return res.status(404).send()
+
+            const prod = await models.Product.findOne({ where: { id } })
+            if (!prod) return res.status(404).send()
+
+            await prod.destroy()
+            return res.json(prod)
+
+        } catch (err) {
+            return res.status(500).json("Ошибка сервера")
+        }
+    }
 }
 export default new ProductController()

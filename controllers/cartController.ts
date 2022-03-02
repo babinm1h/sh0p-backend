@@ -7,14 +7,14 @@ class CartController {
     async create(req: any, res: express.Response) {
         try {
             const userId = req.user.id
-            if (!userId) return res.status(400).send()
+            if (!userId) return res.status(400).json("ffa")
 
             const productId = req.params.id
-            if (!productId) return res.status(400).send()
+            if (!productId) return res.status(400).json("ffa2")
 
             const cart = await models.Cart.findOne({ where: { userId } })
-            if (!cart) return res.status(404).send()
-            const inCart = await models.CartProduct.findOne({ where: { productId } })
+            if (!cart) return res.status(404).send(`userId`)
+            const inCart = await models.CartProduct.findOne({ where: { productId, cartId: cart.id } })
             if (inCart) return res.status(400).send()
 
             await models.CartProduct.create({ cartId: cart.id, productId })
